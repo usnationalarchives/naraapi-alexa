@@ -1,111 +1,168 @@
 {
-  "interactionModel": {
-      "languageModel": {
-          "invocationName": "national archives",
-          "intents": [
-              {
-                  "name": "AMAZON.CancelIntent",
-                  "samples": []
-              },
-              {
-                  "name": "AMAZON.HelpIntent",
-                  "samples": []
-              },
-              {
-                  "name": "AMAZON.StopIntent",
-                  "samples": []
-              },
-              {
-                  "name": "GetRecipe",
-                  "slots": [
-                      {
-                          "name": "recipeType",
-                          "type": "recipeType",
-                          "samples": [
-                              "{recipeType} recipe"
-                          ]
-                      }
-                  ],
-                  "samples": [
-                      "{recipeType} recipe",
-                      "give me a {recipeType} recipe"
-                  ]
-              },
-              {
-                  "name": "NextRecipe",
-                  "slots": [],
-                  "samples": [
-                      "next recipe"
-                  ]
-              },
-              {
-                  "name": "ReadRecipe",
-                  "slots": [],
-                  "samples": [
-                      "read recipe"
-                  ]
-              },
-              {
-                  "name": "AMAZON.YesIntent",
-                  "samples": []
-              },
-              {
-                  "name": "AMAZON.NoIntent",
-                  "samples": []
-              }
-          ],
-          "types": [
-              {
-                  "name": "recipeType",
-                  "values": [
-                      {
-                          "name": {
-                              "value": "dinner"
-                          }
-                      }
-                  ]
-              }
-          ]
-      },
-      "dialog": {
-          "intents": [
-              {
-                  "name": "GetRecipe",
-                  "confirmationRequired": false,
-                  "prompts": {},
-                  "slots": [
-                      {
-                          "name": "recipeType",
-                          "type": "recipeType",
-                          "confirmationRequired": false,
-                          "elicitationRequired": true,
-                          "prompts": {
-                              "elicitation": "Elicit.Slot.974881901284.1015693275685"
-                          }
-                      }
-                  ]
-              }
-          ]
-      },
-      "prompts": [
-          {
-              "id": "Elicit.Slot.1048790846317.752307475955",
-              "variations": [
-                  {
-                      "type": "PlainText",
-                      "value": "Would you like a breakfast, dinner, or dessert recipe?"
-                  }
-              ]
-          },
-          {
-              "id": "Elicit.Slot.974881901284.1015693275685",
-              "variations": [
-                  {
-                      "type": "PlainText",
-                      "value": "Would you like a breakfast, dinner, or dessert recipe?"
-                  }
-              ]
-          }
-      ]
-  }
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "national archives",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "GetRecipe",
+                    "slots": [
+                        {
+                            "name": "recipeType",
+                            "type": "recipeType",
+                            "samples": [
+                                "{recipeType} recipe"
+                            ]
+                        },
+                        {
+                            "name": "recipeAdj",
+                            "type": "recipeAdj"
+                        }
+                    ],
+                    "samples": [
+                        "I'd like a {recipeAdj} recipe",
+                        "{recipeType} recipe",
+                        "give me a {recipeType} recipe"
+                    ]
+                },
+                {
+                    "name": "NextRecipe",
+                    "slots": [],
+                    "samples": [
+                        "next recipe"
+                    ]
+                },
+                {
+                    "name": "ReadRecipe",
+                    "slots": [],
+                    "samples": [
+                        "read recipe"
+                    ]
+                },
+                {
+                    "name": "AMAZON.YesIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": []
+                },
+                {
+                    "name": "SendToPhone",
+                    "slots": [],
+                    "samples": [
+                        "thanks. send to my phone",
+                        "send to my phone"
+                    ]
+                },
+                {
+                    "name": "FavoriteRecipe",
+                    "slots": [],
+                    "samples": [
+                        "what is your favorite recipe"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "recipeType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "dessert"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "breakfast"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "cocktail"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dinner"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "recipeAdj",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "sweet"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "vegetarian"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "GetRecipe",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "recipeType",
+                            "type": "recipeType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.974881901284.1015693275685"
+                            }
+                        },
+                        {
+                            "name": "recipeAdj",
+                            "type": "recipeAdj",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ]
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Slot.1048790846317.752307475955",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Would you like a breakfast, dinner, or dessert recipe?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.974881901284.1015693275685",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Would you like a breakfast, dinner, or dessert recipe?"
+                    }
+                ]
+            }
+        ]
+    }
 }
