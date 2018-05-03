@@ -10,13 +10,14 @@ exports.handler = function(event, context, callback){
 };
 
 // Lists of predetermined recipe naIds
-const breakfastRecipes = [6727957];
-const dinnerRecipes = [6731390, 6802684];
-const dessertRecipes = [6731445];
+const breakfastRecipes = [6727957, 5721363];
+const dinnerRecipes = [6731390, 6802684, 186609];
+const dessertRecipes = [6731445, 6784043, 6779856];
 const waffles = [193739];
 const cocktailRecipes = [17411415];
 const favoriteRecipes = [6727894];
-const vegetarianRecipes = [6784181];
+const vegetarianRecipes = [6784181, 6731265, 6784007];
+const appetizerRecipes = [6783885]
 
 const handlers = {
     // Responds to Alexa Open skill
@@ -37,19 +38,11 @@ const handlers = {
     this.emit(':responseReady');
   },
   'ReturnRecipeFromAPI': function() {
-
-    // this.attributes['recipe'] = this.attributes['recipe'] ? this.attributes['recipe'] : '';
-    // this.attributes['currentIndex'] = this.attributes['currentIndex'] ? this.attributes['currentIndex'] : 0;
-    // this.attributes['outOfRecipes'] = this.attributes['outOfRecipes'] ? this.attributes['outOfRecipes'] : false;
     
     const naIdList = this.attributes['naIdList'];
     const currentIndex = this.attributes['currentIndex'];
     const recipeTypeSlot = this.attributes['recipe'];
-    console.log(currentIndex)
-    // if (this.attributes['outOfRecipes']) {
-    //   naIdList = waffles;
-    // }
-    
+
     httpsGet({recipeId: naIdList[currentIndex]}, (resResult) => {
       const currentItem = resResult.result[0];
       // this.attributes['nara_data'] = resResult.result;
@@ -82,18 +75,27 @@ const handlers = {
           speakValue =
             `You seem like a picky eater, maybe you’d like breakfast for dinner. 
             John F. Kennedy’s waffles are always a hit at my house. 
-            Would you like me to John F. Kennedy’s waffles?`;
+            Would you like me to read John F. Kennedy’s waffles?`;
           listenValue = 
             `Would you like me to John F. Kennedy’s waffles?`;
+          break;
+        case 'appetizer':
+          speakValue =
+            `Don't eat too much of this ${resultTitle} or you'll spoil your dinner. 
+            If you would like to hear this recipe, please say read recipe. 
+            Or if you would like to hear another recipe, say next recipe.`;
+          listenValue = 
+            `Please say read recipe to hear ${resultTitle},
+            or say next for another recipe.`;
           break;
         default:
           speakValue =
             `I have found ${resultTitle}.
             If you would like to hear this recipe, please say read recipe.
-            Or if you would like to hear another recipe, say next.`;
+            Or if you would like to hear another recipe, say next recipe.`;
           listenValue =
             `Please say read recipe to hear ${resultTitle},
-            or say next for another recipe.`;
+            or say next recipe for another recipe.`;
           break;
       } 
       
@@ -103,13 +105,6 @@ const handlers = {
       this.response.cardRenderer('Recipes from the National Archives', speakValue);
       this.emit(':responseReady');
       
-      
-      
-      // if(this.attributes['outOfRecipes']) {
-      //     this.emit('ReadRecipe');
-      // } else {
-        
-      // }
     });
     
     
@@ -129,6 +124,9 @@ const handlers = {
         case 'vegetarian':
           this.attributes['naIdList'] = vegetarianRecipes;
           break;
+        case 'sweet':
+          this.attributes['naIdList'] = dessertRecipes;
+          break;
       } 
     } else {
       switch (recipeTypeSlot) {
@@ -140,6 +138,12 @@ const handlers = {
           break;
         case 'breakfast':
           this.attributes['naIdList'] = breakfastRecipes;
+          break;
+        case 'dessert':
+          this.attributes['naIdList'] = dessertRecipes;
+          break;
+        case 'appetizer':
+          this.attributes['naIdList'] = appetizerRecipes;
           break;
       } 
     }
@@ -201,7 +205,12 @@ const handlers = {
 
     this.emit('ReturnRecipeFromAPI');
   },
-  'ListRecipes': function() {},
+  'ListRecipes': function() {
+    this.response
+      .speak('I have many types of recipes. Are you looking for a breakfast, dinner, or dessert?')
+      .listen(`If you are not sure, I can let you know about my favorite recipe.`);
+    this.emit(':responseReady');
+  },
   'NoRecipes': function() {},
   'SendToPhone': function() {
     if (this.attributes['recipe'] === 'cocktail') {
@@ -213,9 +222,9 @@ const handlers = {
   },
   "AMAZON.YesIntent": function () { 
     if (this.attributes['current_recipe'] === '') {
-        this.emit('OutOfRecipes');
+        this.emit('ListRecipes');
     } else if (this.attributes['outOfRecipes']) {
-        this.emit('GetRecipe');
+        this.emit('ReadRecipe');
     }
   },
   "AMAZON.NoIntent": function () {
@@ -225,8 +234,6 @@ const handlers = {
 }
 
 function httpsGet(myData, callback) {
-    
-    
     
     var apiPath = '/api/v1?resultTypes=item'
         + '&resultFields=description.item.title,objects.object.publicContributions.transcription,objects.object.publicContributions.tags,description.item.naId'

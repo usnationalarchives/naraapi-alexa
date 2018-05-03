@@ -31,6 +31,8 @@
                         }
                     ],
                     "samples": [
+                        "a {recipeAdj} recipe",
+                        "{recipeType}",
                         "I'd like a {recipeAdj} recipe",
                         "{recipeType} recipe",
                         "give me a {recipeType} recipe"
@@ -40,6 +42,7 @@
                     "name": "NextRecipe",
                     "slots": [],
                     "samples": [
+                        "next",
                         "next recipe"
                     ]
                 },
@@ -62,6 +65,7 @@
                     "name": "SendToPhone",
                     "slots": [],
                     "samples": [
+                        "send to phone",
                         "thanks. send to my phone",
                         "send to my phone"
                     ]
@@ -72,12 +76,25 @@
                     "samples": [
                         "what is your favorite recipe"
                     ]
+                },
+                {
+                    "name": "ListRecipes",
+                    "slots": [],
+                    "samples": [
+                        "what kinds of recipes do you have",
+                        "list recipes"
+                    ]
                 }
             ],
             "types": [
                 {
                     "name": "recipeType",
                     "values": [
+                        {
+                            "name": {
+                                "value": "appetizer"
+                            }
+                        },
                         {
                             "name": {
                                 "value": "dessert"
